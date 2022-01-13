@@ -37,7 +37,7 @@ namespace ProEventos.Persistence
         }
         public async Task<bool> SaveChangesAsync()
         {
-            return (await _context.SaveChangesAsync()) > 0 ;
+            return (await _context.SaveChangesAsync()) > 0;
         }
 
 
@@ -93,9 +93,20 @@ namespace ProEventos.Persistence
 
       
 
-        public Task<Evento[]> GetAllPalestrantesAsync(bool includeEventos)
+        public async Task<Palestrante[]> GetAllPalestrantesAsync(bool includeEventos)
         {
-            throw new NotImplementedException();
+            IQueryable<Palestrante> query = _context.Palestrantes.Include(p => p.RedeSociais);
+
+
+            //caso a pessoa queira incluir palestrante
+            if (includeEventos)
+            {
+                query = query.Include(pe => pe.PalestranteEventos)
+                             .ThenInclude(e => e.Evento);
+
+            }
+            query = query.OrderBy(p => p.Id);
+            return await query.ToArrayAsync();
         }
 
         public Task<Evento[]> GetAllPalestrantesByIdAsync(int PalestranteId, bool includeEventos)
