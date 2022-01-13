@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using proEventos.Persistence;
-
+using proEventos.Persistence.Contexto;
 using ProEventos.Domain;
 using System;
 using System.Collections.Generic;

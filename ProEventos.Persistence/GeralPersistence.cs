@@ -1,4 +1,5 @@
-﻿using proEventos.Persistence;
+﻿
+using proEventos.Persistence.Contexto;
 using ProEventos.Persistence.Contratos;
 using System;
 using System.Collections.Generic;

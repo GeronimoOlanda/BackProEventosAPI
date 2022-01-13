@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace proEventos.Persistence
+namespace proEventos.Persistence.Contexto
 {
     public class ProEventosContext : DbContext
     {
