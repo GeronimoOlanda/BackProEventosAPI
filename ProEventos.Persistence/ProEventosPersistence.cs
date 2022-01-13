@@ -93,7 +93,7 @@ namespace ProEventos.Persistence
 
       
 
-        public async Task<Palestrante[]> GetAllPalestrantesAsync(bool includeEventos)
+        public async Task<Palestrante[]> GetAllPalestrantesAsync( bool includeEventos = false)
         {
             IQueryable<Palestrante> query = _context.Palestrantes.Include(p => p.RedeSociais);
 
@@ -108,16 +108,38 @@ namespace ProEventos.Persistence
             query = query.OrderBy(p => p.Id);
             return await query.ToArrayAsync();
         }
-
-        public Task<Evento[]> GetAllPalestrantesByIdAsync(int PalestranteId, bool includeEventos)
+        public async Task<Palestrante[]> GetAllPalestrantesByNomeAsync(string nome, bool includeEventos)
         {
-            throw new NotImplementedException();
+            IQueryable<Palestrante> query = _context.Palestrantes.Include(p => p.RedeSociais);
+
+
+            //caso a pessoa queira incluir palestrante
+            if (includeEventos)
+            {
+                query = query.Include(pe => pe.PalestranteEventos)
+                             .ThenInclude(e => e.Evento);
+
+            }
+            query = query.OrderBy(p => p.Id).Where(p => p.Nome.ToLower().Contains(nome.ToLower()));
+            return await query.ToArrayAsync();
+        }
+        public async Task<Palestrante[]> GetAllPalestrantesByIdAsync(int palestranteId, bool includeEventos)
+        {
+            IQueryable<Palestrante> query = _context.Palestrantes.Include(p => p.RedeSociais);
+
+
+            //caso a pessoa queira incluir palestrante
+            if (includeEventos)
+            {
+                query = query.Include(pe => pe.PalestranteEventos)
+                             .ThenInclude(e => e.Evento);
+
+            }
+            query = query.OrderBy(p => p.Id).Where(p => p.Id == palestranteId);
+            return await query.ToArrayAsync();
         }
 
-        public Task<Evento[]> GetAllPalestrantesByNomeAsync(string nome, bool includeEventos)
-        {
-            throw new NotImplementedException();
-        }
+       
 
    
     }
